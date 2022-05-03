@@ -6,6 +6,7 @@ import { categorize } from "../../utils";
 import NavigateTo from "../../components/navigateTo/NavigateTo";
 import BookShelf from "../../components/book-shelf/BookShelf";
 import shortid from "shortid";
+import { clearAll } from "../../features/slices/searchSlice";
 const Shelves = () => {
   const dispatch = useDispatch();
   const { shelfResults, loading } = useSelector((state) => state.shelfSlice);
@@ -18,6 +19,7 @@ const Shelves = () => {
 
   useEffect(() => {
     dispatch(getAllBooks());
+    dispatch(clearAll());
   }, [dispatch]);
   return (
     <div>

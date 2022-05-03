@@ -3,16 +3,22 @@ import { getSearchResults } from "../../features/slices/searchSlice";
 import Book from "../book/Book";
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { setSearchTerms } from "../../utils";
 import { capitalize } from "../../utils";
+import shortid from "shortid";
+import { useDebouncedCallback } from "use-debounce";
+
 const SearchField = () => {
   const [inputData, setInputData] = useState({
     search: "",
   });
   const { searchResults } = useSelector((state) => state.searchSlice);
   const { shelfResults } = useSelector((state) => state.shelfSlice);
-
   const dispatch = useDispatch();
+  const debouncedGetSearchResults = useDebouncedCallback(
+    (capitalizedSearchTerm) =>
+      dispatch(getSearchResults(capitalizedSearchTerm)),
+    250
+  );
 
   const handleChange = (e) => {
     const target = e.target;
@@ -23,9 +29,8 @@ const SearchField = () => {
 
   useEffect(() => {
     const capitalizedSearchTerm = capitalize(inputData.search);
-    if (setSearchTerms.includes(capitalizedSearchTerm)) {
-      dispatch(getSearchResults(inputData.search));
-    }
+
+    debouncedGetSearchResults(capitalizedSearchTerm);
   }, [inputData.search, dispatch]);
 
   return (
@@ -38,14 +43,14 @@ const SearchField = () => {
         onChange={handleChange}
       />
 
-      {searchResults.map((searchBook) => {
+      {searchResults?.map((searchBook) => {
         const searchBookOnShelfFound = shelfResults.find(
           (shelfBook) => shelfBook.id === searchBook.id
         );
 
         const book = searchBookOnShelfFound || searchBook;
 
-        return <Book bookDetails={book} />;
+        return <Book bookDetails={book} key={shortid.generate()} />;
       })}
     </div>
   );

@@ -16,6 +16,11 @@ export const getSearchResults = createAsyncThunk(
 const searchSlice = createSlice({
   name: "search",
   initialState,
+  reducers: {
+    clearAll: (state, action) => {
+      state.searchResults = [];
+    },
+  },
   extraReducers: {
     [getSearchResults.pending]: (state, action) => {
       state.loading = true;
@@ -30,6 +35,10 @@ const searchSlice = createSlice({
     },
   },
 });
-const { reducer } = searchSlice;
+const {
+  actions: { clearAll },
+  reducer,
+} = searchSlice;
 
 export default reducer;
+export { clearAll };

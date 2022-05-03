@@ -36,7 +36,9 @@ const Book = ({ bookDetails }) => {
           style={{
             width: 128,
             height: 193,
-            backgroundImage: `url(${bookDetails.imageLinks.smallThumbnail})`,
+            backgroundImage: bookDetails.imageLinks
+              ? `url(${bookDetails.imageLinks.thumbnail}`
+              : "",
           }}
         ></div>
         <div className="book-shelf-changer">
@@ -53,7 +55,9 @@ const Book = ({ bookDetails }) => {
           />
         </div>
       </div>
-      <div className="book-title">{bookDetails.title}</div>
+      <div className="book-title">
+        {bookDetails.title ? bookDetails.title : "no title"}
+      </div>
       <div className="book-authors">
         {bookDetails.authors ? bookDetails.authors.join(" - ") : "no author"}
       </div>
