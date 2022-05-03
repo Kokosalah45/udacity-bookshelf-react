@@ -1,7 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { setSearchTerms } from "../../utils";
 import { search } from "../../BooksAPI";
-import { capitalize } from "../../utils";
+
 const initialState = {
   loading: false,
   searchResults: [],

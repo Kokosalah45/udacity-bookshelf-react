@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllBooks } from "../../features/slices/shelfSlice";
 import { categorize } from "../../utils";
+import NavigateTo from "../../components/navigateTo/NavigateTo";
 import BookShelf from "../../components/book-shelf/BookShelf";
 import shortid from "shortid";
 const Shelves = () => {
@@ -34,6 +35,7 @@ const Shelves = () => {
           loading...
         </div>
       )}
+      <NavigateTo to={"/search"} />
     </div>
   );
 };

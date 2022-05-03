@@ -24,7 +24,6 @@ const shelfSlice = createSlice({
     },
     [getAllBooks.rejected]: (state, action) => {
       state.loading = false;
-
       state.errors = action.payload;
     },
   },

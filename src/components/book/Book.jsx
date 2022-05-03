@@ -6,22 +6,21 @@ import { useState } from "react";
 import { getAllBooks } from "../../features/slices/shelfSlice";
 import { useDispatch } from "react-redux";
 import { useLocation } from "react-router-dom";
+
 const Book = ({ bookDetails }) => {
-  const [shelfStatus, setShelfStatus] = useState(bookDetails?.shelf);
+  const [shelfStatus, setShelfStatus] = useState(bookDetails.shelf || "none");
   const dispatch = useDispatch();
   const { pathname } = useLocation();
-  console.log({ bookDetails });
 
-  const handleShelfStatusChange = (e) => {
+  const handleShelfStatusChange = async (e) => {
     try {
       const target = e.target;
 
       const value = target.value;
-      console.log(value);
-      update(bookDetails, value);
+      await update(bookDetails, value);
+
       setShelfStatus(value);
       if (pathname === "/") {
-        console.log("dispatched !");
         dispatch(getAllBooks());
       }
     } catch (error) {
