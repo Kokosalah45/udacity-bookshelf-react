@@ -10,7 +10,8 @@ const SearchField = () => {
     search: "",
   });
   const { searchResults } = useSelector((state) => state.searchSlice);
-  console.log(searchResults);
+  const { shelfResults } = useSelector((state) => state.shelfSlice);
+
   const dispatch = useDispatch();
 
   const handleChange = (e) => {
@@ -37,9 +38,15 @@ const SearchField = () => {
         onChange={handleChange}
       />
 
-      {searchResults.map((bookDetails) => (
-        <Book bookDetails={bookDetails} />
-      ))}
+      {searchResults.map((searchBook) => {
+        const searchBookOnShelfFound = shelfResults.find(
+          (shelfBook) => shelfBook.id === searchBook.id
+        );
+
+        const book = searchBookOnShelfFound || searchBook;
+
+        return <Book bookDetails={book} />;
+      })}
     </div>
   );
 };
